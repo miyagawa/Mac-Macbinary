@@ -93,7 +93,7 @@ __END__
 
 =head1 NAME
 
-Mac::Macbinary - Decodes Macbinary files.
+Mac::Macbinary - Decodes Macbinary files
 
 =head1 SYNOPSIS
 

@@ -20,7 +20,7 @@ METHODS
 
   Class method
 
-    new(*THINGY*)
+    new( THINGY )
         Constructor of Mac::Macbinary. Accepts filhandle GLOB reference,
         FileHandle instance, IO::* instance, or whatever objects that can do
         `read' methods.
@@ -84,7 +84,7 @@ EXAMPLE
       $type = $q->uploadInfo($filename)->{'Content-Type'};
      
       if ($type eq 'application/x-macbinary') {
-          $mb = Mac::Macbinary->new($q->upload('uploaded_file');
+          $mb = Mac::Macbinary->new($q->upload('uploaded_file'));
           # now, you can get data via $mb->data;
       } 
 
@@ -98,11 +98,11 @@ AUTHOR
 ACKNOWLEDGEMENT
     Macbinary.pm is originally written by Dan Kogai <dankogai@dan.co.jp>.
 
-    There are also `Mac::Conversions' and `Convert::BinHex', which works kind
+    There are also `Mac::Conversions' and `Convert::BinHex', working kind
     similar to this module. (However, `Mac::Conversions' works only on
     MacPerl, and `Convert::BinHex' is now deprecated.) Many thanks to Paul J.
     Schinder and Eryq, authors of those ones.
 
 SEE ALSO
-    perl(1).
+    perl(1), the Mac::Conversions manpage, the Convert::BinHex manpage.
 

@@ -93,10 +93,15 @@ TODO
     not.
 
 AUTHOR
-    Tatsuhiko Miyagawa <miyagawa@edge.co.jp>
+    Tatsuhiko Miyagawa <miyagawa@bulknews.net>
 
 ACKNOWLEDGEMENT
     Macbinary.pm is originally written by Dan Kogai <dankogai@dan.co.jp>.
+
+    There are also `Mac::Conversions' and `Convert::BinHex', which works kind
+    similar to this module. (However, `Mac::Conversions' works only on
+    MacPerl, and `Convert::BinHex' is now deprecated.) Many thanks to Paul J.
+    Schinder and Eryq, authors of those ones.
 
 SEE ALSO
     perl(1).

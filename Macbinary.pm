@@ -6,8 +6,6 @@ $VERSION = '0.01';
 
 use Carp;
 
-use constant HEADER_SIZE	=> 128;
-
 sub new {
     my ($class, $thingy) = @_;
     my $self = bless { }, $class;
@@ -21,7 +19,7 @@ sub _parse_handle {
     my $self = shift;
     my ($fh) = @_;
 
-    read $fh, my ($header), HEADER_SIZE;
+    read $fh, my ($header), 128;
     $self->{header} = Mac::Macbinary::Header->new($header);
     read $fh, $self->{data}, $self->header->dflen;
     read $fh, $self->{resource}, $self->header->rflen;
@@ -214,11 +212,16 @@ or not.
 
 =head1 AUTHOR
 
-Tatsuhiko Miyagawa <miyagawa@edge.co.jp>
+Tatsuhiko Miyagawa <miyagawa@bulknews.net>
 
 =head1 ACKNOWLEDGEMENT
 
 Macbinary.pm is originally written by Dan Kogai <dankogai@dan.co.jp>.
+
+There are also C<Mac::Conversions> and C<Convert::BinHex>, which works
+kind similar to this module. (However, C<Mac::Conversions> works only
+on MacPerl, and C<Convert::BinHex> is now deprecated.) Many thanks to
+Paul J. Schinder and Eryq, authors of those ones.
 
 =head1 SEE ALSO
 

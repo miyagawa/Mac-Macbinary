@@ -1,0 +1,77 @@
+NAME
+    Mac::Macbinary - Macbinary Handler
+
+SYNOPSIS
+      use Mac::Macbinary;
+
+      $mb = new Mac::Macbinary(\*FH);       # filehandle
+      $mb = new Mac::Macbinary($fh);        # IO::* instance
+      $mb = new Mac::Macbinary("/path/to/file");
+
+      $header = $mb->header;                # Mac::Macbinary::Header instance
+      $name = $header->name;
+
+DESCRIPTION
+    This module provides an object-oriented way to extract various kinds of
+    information from Macintosh Macbinary files.
+
+METHODS
+    Following methods are available.
+
+  Class method
+
+    new(*THINGY*)
+        Constructor of Mac::Macbinary. Accepts filhandle GLOB reference,
+        FileHandle instance, IO::* instance, or whatever objects that can do
+        `read' methods.
+
+        If the argument belongs none of those above, `new()' treats it as a
+        path to file. Any of following examples are valid constructors.
+
+          open FH, "path/to/file";
+          $mb = new Mac::MacBinary(\*FH);
+
+          $fh = new FileHandle "path/to/file";
+          $mb = new Mac::MacBinary($fh);
+
+          $io = new IO::File "path/to/file";
+          $mb = new Mac::MacBinary($io);
+
+          $mb = new Mac::MacBinary "path/to/file";
+
+  Instance Method
+
+    data
+        returns the data range of original file.
+
+    header
+        returns the header object (instance of Mac::MacBinary).
+
+    Following accessors are available via Mac::Macbinary instance.
+
+    name, type, creator, flags, location, dflen, rflen, cdate, mdate
+        returns the original entry in the header of Macbinary file. Below is
+        a structure of the info file, taken from MacBin.C
+
+          char zero1;
+          char nlen;
+          char name[63];
+          char type[4];           65      0101
+          char creator[4];        69
+          char flags;             73
+          char zero2;             74      0112
+          char location[6];       80
+          char protected;         81      0121
+          char zero3;             82      0122
+          char dflen[4];
+          char rflen[4];
+          char cdate[4];
+          char mdate[4];
+
+AUTHOR
+    Tatsuhiko Miyagawa <miyagawa@edge.co.jp> Originally written by Dan Kogai
+    <dankogai@dan.co.jp>
+
+SEE ALSO
+    perl(1).
+

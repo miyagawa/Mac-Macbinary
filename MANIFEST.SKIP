@@ -1,0 +1,8 @@
+\bRCS\b
+^MANIFEST\.
+^Makefile$
+~$
+\.old$
+^blib/
+^pm_to_blib
+^MakeMaker-\d

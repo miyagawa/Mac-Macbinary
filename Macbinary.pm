@@ -2,7 +2,7 @@ package Mac::Macbinary;
 
 use strict;
 use vars qw($VERSION $AUTOLOAD);
-$VERSION = '0.01';
+$VERSION = '0.02';
 
 use Carp;
 
@@ -225,7 +225,7 @@ Paul J. Schinder and Eryq, authors of those ones.
 
 =head1 SEE ALSO
 
-perl(1).
+perl(1), L<Mac::Conversions>, L<Convert::BinHex>.
 
 =cut
 

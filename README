@@ -1,5 +1,5 @@
 NAME
-    Mac::Macbinary - Macbinary Handler
+    Mac::Macbinary - Decodes Macbinary files.
 
 SYNOPSIS
       use Mac::Macbinary;
@@ -39,6 +39,10 @@ METHODS
 
           $mb = new Mac::Macbinary "path/to/file";
 
+        `new()' throws an exception "Can't read blahblah" if the given
+        argument to the constructor is neither a valid filehandle nor an
+        existing file.
+
   Instance Method
 
     data
@@ -68,9 +72,31 @@ METHODS
           char cdate[4];
           char mdate[4];
 
+EXAMPLE
+    Some versions of MSIE for Macintosh sends their local files as Macbinary
+    format via forms. You can decode them in a following way:
+
+      use CGI;
+      use Mac::Macbinary;
+
+      $q = new CGI;
+      $filename = $q->param('uploaded_file');
+      $type = $q->uploadInfo($filename)->{'Content-Type'};
+     
+      if ($type eq 'application/x-macbinary') {
+          $mb = Mac::Macbinary->new($q->upload('uploaded_file');
+          # now, you can get data via $mb->data;
+      } 
+
+TODO
+    should add `is_macbinary()', to detect if a file is a Macbinary file or
+    not.
+
 AUTHOR
-    Tatsuhiko Miyagawa <miyagawa@edge.co.jp> Originally written by Dan Kogai
-    <dankogai@dan.co.jp>
+    Tatsuhiko Miyagawa <miyagawa@edge.co.jp>
+
+ACKNOWLEDGEMENT
+    Macbinary.pm is originally written by Dan Kogai <dankogai@dan.co.jp>.
 
 SEE ALSO
     perl(1).

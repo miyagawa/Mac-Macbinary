@@ -2,7 +2,7 @@ package Mac::Macbinary;
 
 use strict;
 use vars qw($VERSION $AUTOLOAD);
-$VERSION = 0.05;
+$VERSION = 0.06;
 
 use Carp ();
 
@@ -36,8 +36,8 @@ sub _parse_handle {
 
 sub _make_handle($) {
     my $thingy = shift;
-    
-    if (-f $thingy && ! ref($thingy)) {
+
+    if (! ref($thingy) && -f $thingy) {
 	require FileHandle;
 	my $fh = FileHandle->new($thingy) or Carp::croak "$thingy: $!";
 	return $fh;

@@ -2,6 +2,9 @@ Revision history for Perl extension Mac::Macbinary.
 
 $Id$
 
+0.06	- Fixed warning using IO::Scalar
+	  (Thanks to Volker Moell)
+
 0.05	* Fixed bug in extracting resource fork
 	  (Thanks to Jorg Eschke <joerg@eschke.net>)
 

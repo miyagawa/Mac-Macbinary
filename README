@@ -29,15 +29,15 @@ METHODS
         path to file. Any of following examples are valid constructors.
 
           open FH, "path/to/file";
-          $mb = new Mac::MacBinary(\*FH);
+          $mb = new Mac::Macbinary(\*FH);
 
           $fh = new FileHandle "path/to/file";
-          $mb = new Mac::MacBinary($fh);
+          $mb = new Mac::Macbinary($fh);
 
           $io = new IO::File "path/to/file";
-          $mb = new Mac::MacBinary($io);
+          $mb = new Mac::Macbinary($io);
 
-          $mb = new Mac::MacBinary "path/to/file";
+          $mb = new Mac::Macbinary "path/to/file";
 
   Instance Method
 
@@ -45,7 +45,7 @@ METHODS
         returns the data range of original file.
 
     header
-        returns the header object (instance of Mac::MacBinary).
+        returns the header object (instance of Mac::Macbinary::Header).
 
     Following accessors are available via Mac::Macbinary instance.
 

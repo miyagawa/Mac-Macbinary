@@ -2,7 +2,7 @@ package Mac::Macbinary;
 
 use strict;
 use vars qw($VERSION $AUTOLOAD);
-$VERSION = '0.04';
+$VERSION = 0.05;
 
 use Carp ();
 
@@ -26,6 +26,9 @@ sub _parse_handle {
 	validate => $self->{validate},
     });
     read $fh, $self->{data}, $self->header->dflen;
+
+    my $resourceoffset = 128 - (($self->header->dflen) % 128);
+    read $fh, my($tmp), $resourceoffset;
     read $fh, $self->{resource}, $self->header->rflen;
 
     return $self;

@@ -2,6 +2,9 @@ Revision history for Perl extension Mac::Macbinary.
 
 $Id$
 
+0.05	* Fixed bug in extracting resource fork
+	  (Thanks to Jorg Eschke <joerg@eschke.net>)
+
 0.04	- Documented the "validate" attribute.
 
 0.03	- Implemented _validate_header() method to check and see if a file

@@ -95,7 +95,7 @@ __END__
 
 =head1 NAME
 
-Mac::Macbinary - Macbinary Handler
+Mac::Macbinary - Decodes Macbinary files.
 
 =head1 SYNOPSIS
 
@@ -142,6 +142,11 @@ path to file. Any of following examples are valid constructors.
 
   $mb = new Mac::Macbinary "path/to/file";
 
+C<new()> throws an exception "Can't read blahblah" if the given
+argument to the constructor is neither a valid filehandle nor an
+existing file.
+
+
 =back
 
 =head2 Instance Method
@@ -184,13 +189,23 @@ Below is a structure of the info file, taken from MacBin.C
 
 =back
 
+=head1 TODO
+
+should add C<is_macbinary()>, to detect if a file is a Macbinary file
+or not.
+
 =head1 AUTHOR
 
 Tatsuhiko Miyagawa <miyagawa@edge.co.jp>
-Originally written by Dan Kogai <dankogai@dan.co.jp>
+
+=head1 ACKNOWLEDGEMENT
+
+Macbinary.pm is originally written by Dan Kogai <dankogai@dan.co.jp>.
 
 =head1 SEE ALSO
 
 perl(1).
 
 =cut
+
+

@@ -125,15 +125,15 @@ If the argument belongs none of those above, C<new()> treats it as a
 path to file. Any of following examples are valid constructors.
 
   open FH, "path/to/file";
-  $mb = new Mac::MacBinary(\*FH);
+  $mb = new Mac::Macbinary(\*FH);
 
   $fh = new FileHandle "path/to/file";
-  $mb = new Mac::MacBinary($fh);
+  $mb = new Mac::Macbinary($fh);
 
   $io = new IO::File "path/to/file";
-  $mb = new Mac::MacBinary($io);
+  $mb = new Mac::Macbinary($io);
 
-  $mb = new Mac::MacBinary "path/to/file";
+  $mb = new Mac::Macbinary "path/to/file";
 
 =back
 
@@ -147,7 +147,7 @@ returns the data range of original file.
 
 =item header
 
-returns the header object (instance of Mac::MacBinary::Header).
+returns the header object (instance of Mac::Macbinary::Header).
 
 =back
 

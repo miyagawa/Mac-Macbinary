@@ -2,7 +2,7 @@ package Mac::Macbinary;
 
 use strict;
 use vars qw($VERSION $AUTOLOAD);
-$VERSION = '0.03';
+$VERSION = '0.04';
 
 use Carp ();
 
@@ -150,6 +150,11 @@ Mac::Macbinary - Decodes Macbinary files
   $mb = Mac::Macbinary->new($fh);	# IO::* instance
   $mb = Mac::Macbinary->new("/path/to/file");
 
+  # do validation
+  eval {
+      $mb = Mac::Macbinary->new("/path/to/file", { validate => 1 });
+  };
+
   $header = $mb->header;		# Mac::Macbinary::Header instance
   $name = $header->name;
   
@@ -167,7 +172,7 @@ Following methods are available.
 
 =over 4
 
-=item new( THINGY )
+=item new( THINGY, [ \%attr ] )
 
 Constructor of Mac::Macbinary. Accepts filhandle GLOB reference,
 FileHandle instance, IO::* instance, or whatever objects that can do
@@ -191,6 +196,19 @@ C<new()> throws an exception "Can't read blahblah" if the given
 argument to the constructor is neither a valid filehandle nor an
 existing file.
 
+The optional "\%attr" parameter can be used for validation of file
+format.  You can check and see if a file is really a Macbinary or not
+by setting "validate" attribute to 1.
+
+  $fh = FileHandle->new("path/to/file");
+  eval {
+      $mb = Mac::Macbinary->new(FileHandle->new($fh), { 
+           validate => 1,
+      });
+  };
+  if ($@) {
+      warn "file is not a Macbinary.";
+  }
 
 =back
 

@@ -2,6 +2,8 @@ Revision history for Perl extension Mac::Macbinary.
 
 $Id$
 
+0.04	- Documented the "validate" attribute.
+
 0.03	- Implemented _validate_header() method to check and see if a file
 	  is really a Macbinary file or not. Entire code is stolen from
 	  Mac::Conversions.

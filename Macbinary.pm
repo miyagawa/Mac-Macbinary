@@ -196,7 +196,7 @@ C<new()> throws an exception "Can't read blahblah" if the given
 argument to the constructor is neither a valid filehandle nor an
 existing file.
 
-The optional "\%attr" parameter can be used for validation of file
+The optional L<\%attr> parameter can be used for validation of file
 format.  You can check and see if a file is really a Macbinary or not
 by setting "validate" attribute to 1.
 

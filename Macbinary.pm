@@ -161,7 +161,7 @@ returns the header object (instance of Mac::Macbinary::Header).
 
 =back
 
-Following accessors are available via Mac::Macbinary instance.
+Following accessors are available via Mac::Macbinary::Header instance.
 
 =over 4
 
@@ -210,9 +210,12 @@ Macbinary format via forms. You can decode them in a following way:
 should add C<is_macbinary()>, to detect if a file is a Macbinary file
 or not.
 
-=head1 AUTHOR
+=head1 COPYRIGHT
 
-Tatsuhiko Miyagawa <miyagawa@bulknews.net>
+Copyright 2000 Tatsuhiko Miyagawa <miyagawa@bulknews.net>
+
+This library is free software; you can redistribute it and/or
+modify it under the same terms as Perl itself.
 
 =head1 ACKNOWLEDGEMENT
 

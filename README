@@ -1,16 +1,16 @@
 NAME
-    Mac::Macbinary - Decodes Macbinary files.
+    Mac::Macbinary - Decodes Macbinary files
 
 SYNOPSIS
       use Mac::Macbinary;
 
-      $mb = new Mac::Macbinary(\*FH);       # filehandle
-      $mb = new Mac::Macbinary($fh);        # IO::* instance
-      $mb = new Mac::Macbinary("/path/to/file");
+      $mb = Mac::Macbinary->new(\*FH);      # filehandle
+      $mb = Mac::Macbinary->new($fh);       # IO::* instance
+      $mb = Mac::Macbinary->new("/path/to/file");
 
       $header = $mb->header;                # Mac::Macbinary::Header instance
       $name = $header->name;
-
+  
 DESCRIPTION
     This module provides an object-oriented way to extract various kinds of
     information from Macintosh Macbinary files.
@@ -23,23 +23,23 @@ METHODS
     new( THINGY )
         Constructor of Mac::Macbinary. Accepts filhandle GLOB reference,
         FileHandle instance, IO::* instance, or whatever objects that can do
-        `read' methods.
+        "read" methods.
 
-        If the argument belongs none of those above, `new()' treats it as a
+        If the argument belongs none of those above, "new()" treats it as a
         path to file. Any of following examples are valid constructors.
 
           open FH, "path/to/file";
-          $mb = new Mac::Macbinary(\*FH);
+          $mb = Mac::Macbinary->new(\*FH);
 
-          $fh = new FileHandle "path/to/file";
-          $mb = new Mac::Macbinary($fh);
+          $fh = FileHandle->new("path/to/file");
+          $mb = Mac::Macbinary->new($fh);
 
-          $io = new IO::File "path/to/file";
-          $mb = new Mac::Macbinary($io);
+          $io = IO::File->new("path/to/file");
+          $mb = Mac::Macbinary->new($io);
 
-          $mb = new Mac::Macbinary "path/to/file";
+          $mb = Mac::Macbinary->new("path/to/file");
 
-        `new()' throws an exception "Can't read blahblah" if the given
+        "new()" throws an exception "Can't read blahblah" if the given
         argument to the constructor is neither a valid filehandle nor an
         existing file.
 
@@ -51,7 +51,7 @@ METHODS
     header
         returns the header object (instance of Mac::Macbinary::Header).
 
-    Following accessors are available via Mac::Macbinary instance.
+    Following accessors are available via Mac::Macbinary::Header instance.
 
     name, type, creator, flags, location, dflen, rflen, cdate, mdate
         returns the original entry in the header of Macbinary file. Below is
@@ -82,26 +82,28 @@ EXAMPLE
       $q = new CGI;
       $filename = $q->param('uploaded_file');
       $type = $q->uploadInfo($filename)->{'Content-Type'};
-     
+ 
       if ($type eq 'application/x-macbinary') {
           $mb = Mac::Macbinary->new($q->upload('uploaded_file'));
           # now, you can get data via $mb->data;
       } 
 
-TODO
-    should add `is_macbinary()', to detect if a file is a Macbinary file or
-    not.
+COPYRIGHT
+    Copyright 2000 Tatsuhiko Miyagawa <miyagawa@bulknews.net>
 
-AUTHOR
-    Tatsuhiko Miyagawa <miyagawa@bulknews.net>
+    This library is free software; you can redistribute it and/or modify it
+    under the same terms as Perl itself.
 
 ACKNOWLEDGEMENT
     Macbinary.pm is originally written by Dan Kogai <dankogai@dan.co.jp>.
 
-    There are also `Mac::Conversions' and `Convert::BinHex', working kind
-    similar to this module. (However, `Mac::Conversions' works only on
-    MacPerl, and `Convert::BinHex' is now deprecated.) Many thanks to Paul J.
-    Schinder and Eryq, authors of those ones.
+    There are also "Mac::Conversions" and "Convert::BinHex", working kind
+    similar to this module. (However, "Mac::Conversions" works only on
+    MacPerl, and "Convert::BinHex" is now deprecated.) Many thanks to Paul
+    J. Schinder and Eryq, authors of those ones.
+
+    Macbinary validation is almost a replication of is_macbinary in
+    Mac::Conversions.
 
 SEE ALSO
     perl(1), the Mac::Conversions manpage, the Convert::BinHex manpage.

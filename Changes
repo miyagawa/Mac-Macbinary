@@ -1,8 +1,15 @@
 Revision history for Perl extension Mac::Macbinary.
 
-0.01  Wed Oct 25 17:35:45 2000
-	- original version; created by h2xs 1.19
+$Id$
+
+0.03	- Implemented _validate_header() method to check and see if a file
+	  is really a Macbinary file or not. Entire code is stolen from
+	  Mac::Conversion.
 
 0.02  Wed Nov 15 01:52:58 JST 2000
 	- Removed 05_fail.t, which has caused failure on some platforms.
 	  Improved document.
+
+0.01  Wed Oct 25 17:35:45 2000
+	- original version; created by h2xs 1.19
+

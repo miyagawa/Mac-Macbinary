@@ -2,13 +2,15 @@ package Mac::Macbinary;
 
 use strict;
 use vars qw($VERSION $AUTOLOAD);
-$VERSION = '0.02';
+$VERSION = '0.03';
 
-use Carp;
+use Carp ();
 
 sub new {
-    my ($class, $thingy) = @_;
-    my $self = bless { }, $class;
+    my($class, $thingy, $attr) = @_;
+    my $self = bless {
+	validate => $attr->{validate},
+    }, $class;
 
     my $fh = _make_handle($thingy);
     $self->_parse_handle($fh);
@@ -17,10 +19,12 @@ sub new {
 
 sub _parse_handle {
     my $self = shift;
-    my ($fh) = @_;
+    my($fh) = @_;
 
     read $fh, my ($header), 128;
-    $self->{header} = Mac::Macbinary::Header->new($header);
+    $self->{header} = Mac::Macbinary::Header->new($header, {
+	validate => $self->{validate},
+    });
     read $fh, $self->{data}, $self->header->dflen;
     read $fh, $self->{resource}, $self->header->rflen;
 
@@ -58,15 +62,58 @@ package Mac::Macbinary::Header;
 use vars qw($AUTOLOAD);
 
 sub new {
-    my ($class, $h) = @_;
+    my($class, $h, $attr) = @_;
     my $self = bless { }, $class;
+    if ($attr->{validate}) {
+	$self->_validate_header($h)
+	    or Carp::croak "Macbinary validation failed.";
+    }
     $self->_parse_header($h);
     return $self;
 }
 
+sub _validate_header {
+    my $self = shift;
+    my($h) = @_;
+
+    #  stolen from Mac::Conversions
+    #
+    #  Use a crude heuristic to decide whether or not a file is MacBinary.  The
+    #  first byte of any MacBinary file must be zero.  The second has to be
+    #  <= 63 according to the MacBinary II standard.  The 122nd and 123rd
+    #  each have to be >= 129.  This has about a 1/8000 chance of failing on
+    #  random bytes.  This seems to be all that mcvert does.  Unfortunately
+    #  we can't also check the checksum because the standard software (Stuffit
+    #  Deluxe, etc.) doesn't seem to checksum.
+    
+    my($zero,
+       $namelength,
+       $filename,
+       $type,
+       $creator,
+       $highflag,
+       $dum1,
+       $dum2,
+       $dum3,
+       $datalength,
+       $reslength,
+       $dum4,
+       $dum5,
+       $dum6,
+       $lowflag,
+       $dum7,
+       $dum8,
+       $version_this,
+       $version_needed,
+       $crc) = unpack("CCA63a4a4CxNnCxNNNNnCx14NnCCN", $h);
+
+    return (!$zero && (($namelength - 1)< 63)
+	    && $version_this >= 129 && $version_needed >= 129);
+}
+
 sub _parse_header {
     my $self = shift;
-    my ($h) = @_;
+    my($h) = @_;
 
     $self->{name}	= unpack("A*", substr($h, 2, 63));
     $self->{type}	= unpack("A*", substr($h, 65, 4));
@@ -99,9 +146,9 @@ Mac::Macbinary - Decodes Macbinary files
 
   use Mac::Macbinary;
 
-  $mb = new Mac::Macbinary(\*FH);	# filehandle
-  $mb = new Mac::Macbinary($fh);	# IO::* instance
-  $mb = new Mac::Macbinary("/path/to/file");
+  $mb = Mac::Macbinary->new(\*FH);	# filehandle
+  $mb = Mac::Macbinary->new($fh);	# IO::* instance
+  $mb = Mac::Macbinary->new("/path/to/file");
 
   $header = $mb->header;		# Mac::Macbinary::Header instance
   $name = $header->name;
@@ -130,15 +177,15 @@ If the argument belongs none of those above, C<new()> treats it as a
 path to file. Any of following examples are valid constructors.
 
   open FH, "path/to/file";
-  $mb = new Mac::Macbinary(\*FH);
+  $mb = Mac::Macbinary->new(\*FH);
 
-  $fh = new FileHandle "path/to/file";
-  $mb = new Mac::Macbinary($fh);
+  $fh = FileHandle->new("path/to/file");
+  $mb = Mac::Macbinary->new($fh);
 
-  $io = new IO::File "path/to/file";
-  $mb = new Mac::Macbinary($io);
+  $io = IO::File->new("path/to/file");
+  $mb = Mac::Macbinary->new($io);
 
-  $mb = new Mac::Macbinary "path/to/file";
+  $mb = Mac::Macbinary->new("path/to/file");
 
 C<new()> throws an exception "Can't read blahblah" if the given
 argument to the constructor is neither a valid filehandle nor an
@@ -204,12 +251,6 @@ Macbinary format via forms. You can decode them in a following way:
       # now, you can get data via $mb->data;
   } 
 
-
-=head1 TODO
-
-should add C<is_macbinary()>, to detect if a file is a Macbinary file
-or not.
-
 =head1 COPYRIGHT
 
 Copyright 2000 Tatsuhiko Miyagawa <miyagawa@bulknews.net>
@@ -225,6 +266,9 @@ There are also C<Mac::Conversions> and C<Convert::BinHex>, working
 kind similar to this module. (However, C<Mac::Conversions> works only
 on MacPerl, and C<Convert::BinHex> is now deprecated.) Many thanks to
 Paul J. Schinder and Eryq, authors of those ones.
+
+Macbinary validation is almost a replication of B<is_macbinary> in
+Mac::Conversions.
 
 =head1 SEE ALSO
 

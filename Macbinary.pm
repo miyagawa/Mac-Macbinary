@@ -189,6 +189,24 @@ Below is a structure of the info file, taken from MacBin.C
 
 =back
 
+=head1 EXAMPLE
+
+Some versions of MSIE for Macintosh sends their local files as
+Macbinary format via forms. You can decode them in a following way:
+
+  use CGI;
+  use Mac::Macbinary;
+
+  $q = new CGI;
+  $filename = $q->param('uploaded_file');
+  $type = $q->uploadInfo($filename)->{'Content-Type'};
+ 
+  if ($type eq 'application/x-macbinary') {
+      $mb = Mac::Macbinary->new($q->upload('uploaded_file');
+      # now, you can get data via $mb->data;
+  } 
+
+
 =head1 TODO
 
 should add C<is_macbinary()>, to detect if a file is a Macbinary file

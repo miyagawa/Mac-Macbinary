@@ -37,6 +37,13 @@ sub _make_handle($) {
 	my $fh = FileHandle->new($thingy) or Carp::croak "$thingy: $!";
 	return $fh;
     } else {
+	# tries to read it
+	eval {
+	    read $thingy, my($tmp), 0;
+	};
+	if ($@) {
+	  Carp::croak "Can't read $thingy!";
+	}
 	return $thingy;
     }
 }	

@@ -147,7 +147,7 @@ returns the data range of original file.
 
 =item header
 
-returns the header object (instance of Mac::MacBinary).
+returns the header object (instance of Mac::MacBinary::Header).
 
 =back
 
